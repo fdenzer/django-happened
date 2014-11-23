@@ -1,14 +1,13 @@
-from django.db.models import DateField, CharField, TextField, IntegerField, ForeignKey, Model, URLField
+from django.db.models import DateField, CharField, TextField, IntegerField, ForeignKey, Model, URLField, FloatField
 
 
 class TimeLineEvent(Model):
-    group = CharField(max_length=30, blank=True)
-    start = DateField()
-    start_resolution = IntegerField(default=0)
-    end = DateField(null=True, blank=True)
-    end_resolution = IntegerField(default=0)
-    title = CharField(max_length=1000)
+    group = CharField(max_length=30, default='derivative', blank=False)
+    start = DateField(default='2014-01-01')
+    end = DateField(default='2015-01-01')
+    title = CharField(max_length=100)
     description = TextField(blank=True)
+    exchange_rate = FloatField(default=1.35, null=True)
 
     def __unicode__(self):
         return self.title
