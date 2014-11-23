@@ -9,5 +9,5 @@ urlpatterns = patterns(
     #         Instance of <class> has no <member>
     url(r'^$', RedirectView.as_view(url='timeline')),
     url(r'^timeline/$', TimeLine.as_view(), name='timeline'),
-    url(r'^data.?j?s?/?$', Data.as_view())
+    url(r'^data.?j?s?/?$', Data.as_view(), name='data.js')
 )
