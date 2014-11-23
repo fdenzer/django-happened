@@ -4,10 +4,10 @@ from django.http import HttpResponse
 from django.utils.timezone import is_aware
 from django.views.generic import TemplateView
 import time
-from .models import Event
+from .models import TimeLineEvent
 
 
-class Timeline(TemplateView):
+class TimeLine(TemplateView):
     template_name = 'happened/timeline.html'
 
 
@@ -49,8 +49,8 @@ class JavaScriptSerializer(Serializer):
                 'className': 'className'}
 
 serializer = JavaScriptSerializer()
-jsize = lambda value: serializer.serialize(value, default=encode_datetime)
-twoyears = datetime.timedelta(days=2 * 365)
+j_size = lambda value: serializer.serialize(value, default=encode_datetime)
+two_years = datetime.timedelta(days=2 * 365)
 
 
 class Data(TemplateView):
@@ -58,13 +58,13 @@ class Data(TemplateView):
         # pylint: disable=E1101
         #         Instance of <class> has no <member>
 
-        events = (Event.objects
+        events = (TimeLineEvent.objects
                   .order_by('group', 'start')
                   .prefetch_related('urls'))
         now = datetime.datetime.utcnow()
         expr = u'data={data};min={min};now={now};max={max};'.format(
-            data=jsize(events),
-            min=encode_datetime(events[0].start - twoyears),
+            data=j_size(events),
+            min=encode_datetime(events[0].start - two_years),
             now=encode_datetime(now),
-            max=encode_datetime(now + twoyears))
+            max=encode_datetime(now + two_years))
         return HttpResponse(expr, content_type='application/javascript')
